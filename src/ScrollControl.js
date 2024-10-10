@@ -27,17 +27,17 @@ export default class ScrollControl {
     requestAnimationFrame(raf);
   }
 
-  stop() {
-    if (this.lenis) {
-      this.lenis.stop();
-      console.log('Lenis is stopped');
-    }
-  }
+  // stop() {
+  //   if (this.lenis) {
+  //     this.lenis.stop();
+  //     console.log('Lenis is stopped');
+  //   }
+  // }
 
-  start() {
-    if (this.lenis) {
-      this.lenis.start();
-      console.log('Lenis is started');
-    }
-  }
+  // start() {
+  //   if (this.lenis) {
+  //     this.lenis.start();
+  //     console.log('Lenis is started');
+  //   }
+  // }
 }

@@ -8,9 +8,9 @@ export default class MenuHandler {
   }
 
   init(container, lenis) {
+    this.lenis = lenis;
     this.initializeElements(container);
     this.addEventListeners();
-    this.lenis = lenis;
   }
 
   initializeElements(container) {
@@ -27,7 +27,13 @@ export default class MenuHandler {
 
   addEventListeners() {
     this.elements.navButton.addEventListener('click', () => this.toggleMenu());
-    this.elements.menuLinks.addEventListener('click', () => this.toggleMenu());
+
+    this.elements.menuLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        this.lenis.start();
+        // this.menuClose();
+      });
+    });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && this.isMenuOpen && !this.isAnimating) {
         this.menuClose();
