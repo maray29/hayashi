@@ -1,5 +1,11 @@
 # @maray-ai/hayashi
 
+## 0.2.2
+
+### Patch Changes
+
+- de85c6f: Fixed navbar link lenis start
+
 ## 0.2.1
 
 ### Patch Changes
