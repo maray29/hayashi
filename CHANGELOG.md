@@ -1,5 +1,11 @@
 # @maray-ai/hayashi
 
+## 0.2.1
+
+### Patch Changes
+
+- 4ae90d5: Fixed navbar scroll start
+
 ## 0.2.0
 
 ### Minor Changes
