@@ -43,6 +43,7 @@ class WhiskyApp {
    * @param {WhiskyAppConfig} config - Configuration object for the app
    */
   constructor() {
+    this.lenis = null;
     this.modules = {
       scrollControl: null,
       headerAnimator: null,
@@ -81,10 +82,12 @@ class WhiskyApp {
       this.initializeModules();
 
       this.modules.scrollControl.init();
-      this.modules.headerAnimator.animateIntro(container);
+      this.lenis = this.modules.scrollControl.getLenis(); // Get the Lenis instance
+
+      this.modules.headerAnimator.init(container);
       this.modules.sliderCreator.createAllSliders();
       this.modules.productAnimator.init();
-      this.modules.menuHandler.init(container);
+      this.modules.menuHandler.init(container, this.lenis);
       this.modules.videoHandler.initVideos();
 
       this.setupScrollToTop();

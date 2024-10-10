@@ -15,6 +15,10 @@ export default class ScrollControl {
     }
   }
 
+  getLenis() {
+    return this.lenis;
+  }
+
   startRaf() {
     const raf = (time) => {
       this.lenis.raf(time);

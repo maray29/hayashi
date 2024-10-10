@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import SplitType from 'split-type';
+
 import VideoHandler from './VideoHandler';
 export default class HeaderAnimator {
   constructor() {
@@ -7,21 +8,25 @@ export default class HeaderAnimator {
     this.elements = {};
   }
 
-  animateIntro(container) {
+  init(container) {
     this.headerComponent = container.querySelector('.home-header_component');
     if (!this.headerComponent) return;
 
     this.initializeElements();
     this.streamVideo();
-    this.createAnimation();
+    this.animateIntro();
+    this.animateOnScroll();
   }
 
   initializeElements() {
     this.elements = {
-      paperTop: this.headerComponent.querySelector('.home-header_top-paper2'),
-      paperBottom: this.headerComponent.querySelector('.home-header_bottom-paper2'),
-      logo: this.headerComponent.querySelector('.home-header_logo'),
-      overlay: this.headerComponent.querySelector('.home-header_overlay'),
+      introWrap: this.headerComponent.querySelector('[data-element="intro-wrap"]'),
+      introLogo: this.headerComponent.querySelector('[data-element="intro-logo"]'),
+      introKanji: this.headerComponent.querySelector('[data-element="intro-kanji"]'),
+      introVideoContainer: this.headerComponent.querySelector(
+        '[data-element="intro-video-container"]'
+      ),
+      introVideo: this.headerComponent.querySelector('[data-element="intro-video"]'),
       bottle: this.headerComponent.querySelector('.home-header_bottle'),
       content: this.headerComponent.querySelector('.home-header_content'),
       kanji: this.headerComponent.querySelector('.home-header_kanji'),
@@ -29,38 +34,42 @@ export default class HeaderAnimator {
       button: this.headerComponent.querySelector('.button'),
       buttonArrow: this.headerComponent.querySelector('.button_icon'),
       videoContainer: this.headerComponent.querySelector('.home-header_landscape'),
-      videoEl: this.headerComponent.querySelector('[data-element="header-video"]'),
+      video: this.headerComponent.querySelector('[data-element="header-video"]'),
     };
   }
 
   streamVideo() {
-    if (!this.elements.videoEl) return;
-    const video = new VideoHandler(this.elements.videoEl);
-    video.initVideos();
+    if (!this.elements.video || !this.elements.introVideo) return;
+    const videos = new VideoHandler([this.elements.introVideo, this.elements.video]);
+    videos.initVideos();
   }
 
-  createAnimation() {
+  animateIntro() {
     const text = new SplitType(this.elements.heading, { types: 'lines, words, chars' });
-
+    console.log(this.elements.introWrap);
     const tl = gsap.timeline();
 
-    tl.to(this.elements.videoContainer, { autoAlpha: 1 })
-      .to(this.elements.bottle, { autoAlpha: 1, y: 0, duration: 1 }, 'start')
-      .to(this.elements.kanji, { autoAlpha: 1, duration: 1 }, 'start+=0.5')
-      .to(this.elements.heading, { autoAlpha: 1, duration: 0.25 }, 'start+=0.75')
+    tl.from(this.elements.introLogo, { autoAlpha: 0, duration: 1 })
+      .from(this.elements.introKanji, { autoAlpha: 0, duration: 1 }, '>-0.15')
+      .to(this.elements.introWrap, { autoAlpha: 1 }, '>-0.5')
+      .to(this.elements.introKanji, { autoAlpha: 0, duration: 1 })
+      .to(this.elements.introLogo, { autoAlpha: 0, duration: 1 })
+      .to(this.elements.introWrap, { autoAlpha: 0, duration: 2 }, '<')
+      .to(this.elements.videoContainer, { autoAlpha: 3 }, '<')
+      .to(this.elements.bottle, { autoAlpha: 1, y: 0, duration: 1 }, '>-0.25')
+      .to(this.elements.kanji, { autoAlpha: 1, duration: 1 }, '>-0.5')
+      .to(this.elements.heading, { autoAlpha: 1, duration: 0.25 }, '<')
       .fromTo(
         text.lines,
         { filter: 'blur(10px) brightness(70%)', willChange: 'filter, transform', autoAlpha: 0 },
         { filter: 'blur(0px) brightness(100%)', stagger: 0.4, autoAlpha: 1, duration: 1 },
-        'start+=1.25'
+        '>-0.5'
       )
       .to(this.elements.button, { autoAlpha: 1, duration: 2 })
       .to(this.elements.buttonArrow, { autoAlpha: 1, yPercent: 0, duration: 1 }, '<');
   }
 
   animateOnScroll() {
-    if (!this.headerComponent) return;
-
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: this.headerComponent,

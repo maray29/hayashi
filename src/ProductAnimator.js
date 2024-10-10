@@ -41,6 +41,7 @@ export default class ProductAnimator {
 
   initializeElements() {
     this.products = document.querySelectorAll('[data-element="product"]');
+    this.productListEl = document.querySelector('[data-element="product-list"]');
     this.productButtons = document.querySelectorAll('[data-element="product-button"]');
     this.productsNav = document.querySelector('[data-element="products-nav"]');
     if (this.productsNav) {
@@ -55,11 +56,16 @@ export default class ProductAnimator {
   }
 
   initializeProductDisplay() {
+    let productElSizes = [];
+    let productElMaxSize = 0;
     this.products.forEach((product, index) => {
+      productElSizes[index] = product.getBoundingClientRect().height;
       product.style.position = 'absolute';
       product.style.display = index === 0 ? 'block' : 'none';
       product.style.opacity = index === 0 ? 1 : 0;
     });
+    productElMaxSize = Math.max(...productElSizes);
+    this.productListEl.style.height = `${productElMaxSize}px`;
   }
 
   setupEventListeners() {

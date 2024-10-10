@@ -1,9 +1,14 @@
 .product_video,
 .video_video,
-.home-header_video {
+.home-header_video,
+.home-header_intro-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+[data-element='intro-wrap'] {
+  display: flex;
 }
 
 /* .home-header_video {
